@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessObjects", "BusinessObjects\BusinessObjects.csproj", "{AE6E0A20-EA86-44D0-B032-9D6E9AB9450A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbCore", "DbCore\DbCore.csproj", "{4B4D9AEB-0510-4F5B-A346-FA2A8E2F3AD3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE6E0A20-EA86-44D0-B032-9D6E9AB9450A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE6E0A20-EA86-44D0-B032-9D6E9AB9450A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE6E0A20-EA86-44D0-B032-9D6E9AB9450A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE6E0A20-EA86-44D0-B032-9D6E9AB9450A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B4D9AEB-0510-4F5B-A346-FA2A8E2F3AD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B4D9AEB-0510-4F5B-A346-FA2A8E2F3AD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B4D9AEB-0510-4F5B-A346-FA2A8E2F3AD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B4D9AEB-0510-4F5B-A346-FA2A8E2F3AD3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
