@@ -7,7 +7,7 @@ using System.ComponentModel;
 namespace BusinessObjects
 {
     [Serializable]    
-    public class BusinessObjectCollection<T> : CollectionBase, IUndoable, IBindingList where T : BusinessObject 
+    public class BusinessObjectCollection<T> : CollectionBase, IUndoable /*, IBindingList */ where T : BusinessObject 
     {
         public bool IsDirty
         {
@@ -219,124 +219,124 @@ namespace BusinessObjects
 
         #region IBindingList Members
 
-        public void AddIndex( PropertyDescriptor property )
-        {
-            throw new Exception ("The method or operation is not implemented.");
-        }
+        //public void AddIndex( PropertyDescriptor property )
+        //{
+        //    throw new Exception ("The method or operation is not implemented.");
+        //}
 
-        public object AddNew()
-        {
-            throw new Exception ("The method or operation is not implemented.");
-        }
+        //public object AddNew()
+        //{
+        //    throw new Exception ("The method or operation is not implemented.");
+        //}
 
-        public bool AllowEdit
-        {
-            get
-            {
-                throw new Exception ("The method or operation is not implemented.");
-            }
-        }
+        //public bool AllowEdit
+        //{
+        //    get
+        //    {
+        //        throw new Exception ("The method or operation is not implemented.");
+        //    }
+        //}
 
-        public bool AllowNew
-        {
-            get
-            {
-                throw new Exception ("The method or operation is not implemented.");
-            }
-        }
+        //public bool AllowNew
+        //{
+        //    get
+        //    {
+        //        throw new Exception ("The method or operation is not implemented.");
+        //    }
+        //}
 
-        public bool AllowRemove
-        {
-            get
-            {
-                throw new Exception ("The method or operation is not implemented.");
-            }
-        }
+        //public bool AllowRemove
+        //{
+        //    get
+        //    {
+        //        throw new Exception ("The method or operation is not implemented.");
+        //    }
+        //}
 
-        public void ApplySort( PropertyDescriptor property, ListSortDirection direction )
-        {
-            throw new Exception ("The method or operation is not implemented.");
-        }
+        //public void ApplySort( PropertyDescriptor property, ListSortDirection direction )
+        //{
+        //    throw new Exception ("The method or operation is not implemented.");
+        //}
 
-        public int Find( PropertyDescriptor property, object key )
-        {
-            throw new Exception ("The method or operation is not implemented.");
-        }
+        //public int Find( PropertyDescriptor property, object key )
+        //{
+        //    throw new Exception ("The method or operation is not implemented.");
+        //}
 
-        public bool IsSorted
-        {
-            get
-            {
-                throw new Exception ("The method or operation is not implemented.");
-            }
-        }
+        //public bool IsSorted
+        //{
+        //    get
+        //    {
+        //        throw new Exception ("The method or operation is not implemented.");
+        //    }
+        //}
 
-        public event ListChangedEventHandler ListChanged;
+        //public event ListChangedEventHandler ListChanged;
 
-        public void RemoveIndex( PropertyDescriptor property )
-        {
-            throw new Exception ("The method or operation is not implemented.");
-        }
+        //public void RemoveIndex( PropertyDescriptor property )
+        //{
+        //    throw new Exception ("The method or operation is not implemented.");
+        //}
 
-        public void RemoveSort()
-        {
-            throw new Exception ("The method or operation is not implemented.");
-        }
+        //public void RemoveSort()
+        //{
+        //    throw new Exception ("The method or operation is not implemented.");
+        //}
 
-        public ListSortDirection SortDirection
-        {
-            get
-            {
-                throw new Exception ("The method or operation is not implemented.");
-            }
-        }
+        //public ListSortDirection SortDirection
+        //{
+        //    get
+        //    {
+        //        throw new Exception ("The method or operation is not implemented.");
+        //    }
+        //}
 
-        public PropertyDescriptor SortProperty
-        {
-            get
-            {
-                throw new Exception ("The method or operation is not implemented.");
-            }
-        }
+        //public PropertyDescriptor SortProperty
+        //{
+        //    get
+        //    {
+        //        throw new Exception ("The method or operation is not implemented.");
+        //    }
+        //}
 
-        public bool SupportsChangeNotification
-        {
-            get
-            {
-                throw new Exception ("The method or operation is not implemented.");
-            }
-        }
+        //public bool SupportsChangeNotification
+        //{
+        //    get
+        //    {
+        //        throw new Exception ("The method or operation is not implemented.");
+        //    }
+        //}
 
-        public bool SupportsSearching
-        {
-            get
-            {
-                throw new Exception ("The method or operation is not implemented.");
-            }
-        }
+        //public bool SupportsSearching
+        //{
+        //    get
+        //    {
+        //        throw new Exception ("The method or operation is not implemented.");
+        //    }
+        //}
 
-        public bool SupportsSorting
-        {
-            get
-            {
-                throw new Exception ("The method or operation is not implemented.");
-            }
-        }
-
-        #endregion
-
-        #region ITypedList Members
-
-        public PropertyDescriptorCollection GetItemProperties( PropertyDescriptor[] listAccessors )
-        {
-            throw new Exception ("The method or operation is not implemented.");
-        }
-
-        public string GetListName( PropertyDescriptor[] listAccessors )
-        {
-            throw new Exception ("The method or operation is not implemented.");
-        }
+        //public bool SupportsSorting
+        //{
+        //    get
+        //    {
+        //        throw new Exception ("The method or operation is not implemented.");
+        //    }
+        //}
 
         #endregion
+
+        //#region ITypedList Members
+
+        //public PropertyDescriptorCollection GetItemProperties( PropertyDescriptor[] listAccessors )
+        //{
+        //    throw new Exception ("The method or operation is not implemented.");
+        //}
+
+        //public string GetListName( PropertyDescriptor[] listAccessors )
+        //{
+        //    throw new Exception ("The method or operation is not implemented.");
+        //}
+
+        //#endregion
     }
 }
