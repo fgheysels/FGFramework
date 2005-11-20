@@ -36,7 +36,9 @@
   <ItemGroup>
     <Compile Include="BusinessObject.cs" />
     <Compile Include="BusinessObjectCollection.cs" />
+    <Compile Include="ILazyLoader.cs" />
     <Compile Include="IUndoable.cs" />
+    <Compile Include="LazyBusinessObjectCollection.cs" />
     <Compile Include="NotUndoableAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
