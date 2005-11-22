@@ -108,6 +108,18 @@ namespace BusinessObjects
             CollectionObj.Remove (item);
         }
 
+        public T[] ToArray()
+        {
+            List<T> list = new List<T> ();
+
+            for( int i = 0; i < CollectionObj.Count; i++ )
+            {
+                list.Add (CollectionObj[i]);
+            }
+
+            return list.ToArray ();
+        }
+
         public void RemoveAt( int index )
         {
             CollectionObj.RemoveAt (index);
