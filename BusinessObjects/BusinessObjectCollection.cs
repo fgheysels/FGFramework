@@ -40,6 +40,18 @@ namespace BusinessObjects
             List.Remove (item);
         }
 
+        public T[] ToArray()
+        {
+            List<T> list = new List<T> ();
+
+            foreach( T item in List )
+            {
+                list.Add (item);
+            }
+
+            return list.ToArray ();
+        }
+
         protected override void OnInsert( int index, object item )
         {
             T businessItem = item as T;
