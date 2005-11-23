@@ -112,18 +112,8 @@ namespace DbCore
             command.Transaction = _transaction;
 
             DbDataAdapter da = _driver.CreateDataAdapter ();
-
-            // Get the select-command property via reflection.
-            PropertyInfo pInfo = da.GetType ().GetProperty ("SelectCommand");
-
-            if( pInfo != null )
-            {
-                pInfo.SetValue (da, command, null);
-            }
-            else
-            {
-                throw new InvalidOperationException ("Data Adapter has no SelectCommand property.");
-            }
+                        
+            da.SelectCommand = command as DbCommand;
 
             da.Fill (dt);
         }
