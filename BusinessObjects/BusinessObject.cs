@@ -260,7 +260,7 @@ namespace BusinessObjects
 
                     currentType = currentType.BaseType;
 
-                } while( currentType != typeof (BusinessObject) );
+                } while( currentType != typeof (object) );
             }
         }
 
@@ -306,7 +306,7 @@ namespace BusinessObjects
             if( _bindingEdit == false )
             {
                 this.CreateSnapshot ();
-                _bindingEdit = false;
+                _bindingEdit = true;
             }
         }
 
