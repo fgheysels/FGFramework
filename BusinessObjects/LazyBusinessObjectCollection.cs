@@ -143,17 +143,27 @@ namespace BusinessObjects
         {
             // Delegate the call to the collection itself; if the collection is not 
             // loaded yet, it will be loaded now.
-            CollectionObj.CreateSnapshot ();
+            // If the collection is not loaded yet, we do not want to create the snapshot.
+            if( _collection != null )
+            {
+                CollectionObj.CreateSnapshot ();
+            }
         }
 
         public void CommitSnapshot()
         {
-            CollectionObj.CommitSnapshot ();
+            if( _collection != null )
+            {
+                CollectionObj.CommitSnapshot ();
+            }
         }
 
         public void RevertToPreviousState()
         {
-            CollectionObj.RevertToPreviousState ();
+            if( _collection != null )
+            {
+                CollectionObj.RevertToPreviousState ();
+            }
         }
 
         #endregion
