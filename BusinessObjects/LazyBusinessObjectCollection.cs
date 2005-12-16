@@ -11,6 +11,7 @@ namespace BusinessObjects
     /// </summary>
     /// <typeparam name="T">The type of the specific BusinessObjects that will be contained
     /// in this collection.</typeparam>
+    [Serializable]
     public class LazyBusinessObjectCollection<T> : IUndoable where T : BusinessObject
     {
         /// <summary>
