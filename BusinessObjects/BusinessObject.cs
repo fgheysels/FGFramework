@@ -12,6 +12,7 @@ namespace BusinessObjects
     /// <summary>
     /// Base class from which every custom business object must inherit.
     /// </summary>
+    [Serializable]
     public abstract class BusinessObject : IUndoable, IEditableObject
     {
         #region IsNew, IsDirty, IsDeleted functionality
