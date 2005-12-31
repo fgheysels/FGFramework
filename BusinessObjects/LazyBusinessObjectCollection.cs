@@ -74,7 +74,14 @@ namespace BusinessObjects
         {
             get
             {
-                return CollectionObj.IsDirty;
+                if( _collection != null )
+                {
+                    return CollectionObj.IsDirty;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 
