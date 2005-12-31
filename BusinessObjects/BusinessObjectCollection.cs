@@ -13,7 +13,14 @@ namespace BusinessObjects
         {
             get
             {
-                throw new NotImplementedException ();
+                foreach( T businessObject in List )
+                {
+                    if( businessObject.IsDirty )
+                    {
+                        return true;
+                    }
+                }
+                return false;
             }
         }
 
