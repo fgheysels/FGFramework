@@ -302,7 +302,7 @@ namespace BusinessObjects
         [NotUndoable]
         private bool _bindingEdit = false;
 
-        public void BeginEdit()
+        void IEditableObject.BeginEdit()
         {
             if( _bindingEdit == false )
             {
@@ -311,7 +311,7 @@ namespace BusinessObjects
             }
         }
 
-        public void CancelEdit()
+        void IEditableObject.CancelEdit()
         {
             if( _bindingEdit )
             {
@@ -319,7 +319,7 @@ namespace BusinessObjects
             }
         }
 
-        public void EndEdit()
+        void IEditableObject.EndEdit()
         {
             if( _bindingEdit )
             {
