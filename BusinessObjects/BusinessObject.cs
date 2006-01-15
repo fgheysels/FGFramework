@@ -123,6 +123,8 @@ namespace BusinessObjects
             FieldInfo[]                 fields;
             string                      fieldName;
 
+            _bindingEdit = true;
+
             currentType = this.GetType ();
 
             do
@@ -173,6 +175,8 @@ namespace BusinessObjects
         /// </summary>
         public void CommitSnapshot()
         {
+            _bindingEdit = false;
+
             // We can only commit the changes if a snapshot was created.
             if( EditLevel > 0 )
             {
@@ -219,6 +223,8 @@ namespace BusinessObjects
         /// </summary>
         public void RevertToPreviousState()
         {
+            _bindingEdit = false;
+
             // We can only undo if we've a state to revert to.
             if( EditLevel > 0 )
             {
@@ -304,26 +310,35 @@ namespace BusinessObjects
 
         void IEditableObject.BeginEdit()
         {
+            System.Diagnostics.Debug.WriteLine ("bindingedit called");
             if( _bindingEdit == false )
             {
                 this.CreateSnapshot ();
-                _bindingEdit = true;
+                
+                System.Diagnostics.Debug.WriteLine ("bindingedit called take snapshot.");
             }
         }
 
         void IEditableObject.CancelEdit()
         {
+            System.Diagnostics.Debug.WriteLine ("canceledit called");
             if( _bindingEdit )
             {
                 this.RevertToPreviousState ();
+                
+                System.Diagnostics.Debug.WriteLine ("canceledit called revert");
+                
             }
         }
 
         void IEditableObject.EndEdit()
         {
+            System.Diagnostics.Debug.WriteLine ("endedit called");
             if( _bindingEdit )
             {
                 this.CommitSnapshot ();
+                
+                System.Diagnostics.Debug.WriteLine ("endedit called commit");
             }
         }
 
