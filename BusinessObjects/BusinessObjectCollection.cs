@@ -47,8 +47,13 @@ namespace BusinessObjects
             List.Remove (item);
         }
 
-        public T[] ToArray()
+        public void RemoveAt( int index )
         {
+            List.RemoveAt (index);
+        }
+
+        public T[] ToArray()
+        {            
             List<T> list = new List<T> ();
 
             foreach( T item in List )
