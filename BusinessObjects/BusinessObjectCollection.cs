@@ -3,17 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace BusinessObjects
 {
     [Serializable]    
-    public class BusinessObjectCollection<T> : CollectionBase, IUndoable, IBindingList where T : BusinessObject 
+    //public class BusinessObjectCollection<T> : CollectionBase, IUndoable, IBindingList where T : BusinessObject 
+    public class BusinessObjectCollection<T> : Collection<T>, IUndoable /*, IBindingList*/ where T : BusinessObject    
     {
         public bool IsDirty
         {
             get
             {
-                foreach( T businessObject in List )
+                foreach( T businessObject in Items )
                 {
                     if( businessObject.IsDirty )
                     {
@@ -24,66 +26,89 @@ namespace BusinessObjects
             }
         }
 
-        public T this[int index]
-        {
-            get
-            {
-                return (T)List[index];
-            }
-        }
+        //public T this[int index]
+        //{
+        //    get
+        //    {
+        //        return (T)List[index];
+        //    }
+        //}
 
-        public int Add( T item )
-        {
-            return List.Add (item);
-        }
+        //public int Add( T item )
+        //{
+        //    return List.Add (item);
+        //}
 
-        public void Insert( int index, T item )
-        {
-            List.Insert (index, item);
-        }
+        //public void Insert( int index, T item )
+        //{
+        //    List.Insert (index, item);
+        //}
 
-        public void Remove( T item )
-        {
-            List.Remove (item);
-        }
+        //public void Remove( T item )
+        //{
+        //    List.Remove (item);
+        //}
 
-        public void RemoveAt( int index )
-        {
-            List.RemoveAt (index);
-        }
+        //public void RemoveAt( int index )
+        //{
+        //    List.RemoveAt (index);
+        //}
 
         public T[] ToArray()
         {            
             List<T> list = new List<T> ();
 
-            foreach( T item in List )
+            foreach( T item in Items )
             {
                 list.Add (item);
             }
-
+            
             return list.ToArray ();
         }
 
-        protected override void OnInsert( int index, object item )
+        protected override void InsertItem( int index, T item )
         {
-            T businessItem = item as T;
+            item.EditLevelAdded = _editLevel;
+
+            base.InsertItem (index, item);
+        }
+        
+
+        //protected override void OnInsert( int index, object item )
+        //{
+        //    T businessItem = item as T;
+
+        //    if( businessItem != null )
+        //    {
+        //        businessItem.EditLevelAdded = _editLevel;
+        //    }            
+
+        //    base.OnInsert (index, businessItem);
+        //}
+
+        //private DeletedCollection _deletedItems = new DeletedCollection ();
+        private Collection<T> _deletedItems = new Collection<T>();
+
+        protected override void RemoveItem( int index )
+        {
+            // Since we do not have direct access to the item that's being removed here,
+            // we'll have to get it first.
+            T businessItem = Items[index];
 
             if( businessItem != null )
             {
-                businessItem.EditLevelAdded = _editLevel;
-            }            
+                DeleteBusinessObject (businessItem);
+            }
 
-            base.OnInsert (index, businessItem);
+            base.RemoveItem(index);
         }
 
-        private DeletedCollection _deletedItems = new DeletedCollection ();
-
-        protected override void OnRemove( int index, object item )
-        {
-            T businessItem = item as T;
-            DeleteBusinessObject (businessItem);
-            base.OnRemove (index, businessItem);
-        }
+        //protected override void OnRemove( int index, object item )
+        //{
+        //    T businessItem = item as T;
+        //    DeleteBusinessObject (businessItem);
+        //    base.OnRemove (index, businessItem);
+        //}
 
         private void DeleteBusinessObject( T item )
         {
@@ -94,12 +119,17 @@ namespace BusinessObjects
         private void UndeleteBusinessObject( T item )
         {
             int saveLevel = item.EditLevelAdded;
-            // Use the InnerList property, so that no events are triggered.
-            base.InnerList.Add (item); 
             
+            Items.Add (item);            
+            
+            if( item.EditLevelAdded != saveLevel )
+            {
+                item.EditLevelAdded = saveLevel;
+            }
+
             // Check to see if the EditLevelAdded stayed the same
-            System.Diagnostics.Debug.Assert (saveLevel == item.EditLevelAdded,
-                                             "EditLevelAdded should not have changed.");
+            //System.Diagnostics.Debug.Assert (saveLevel == item.EditLevelAdded,
+              //                               "EditLevelAdded should not have changed.");
 
             // Remove the item from the deleted items collection, since we've undeleted it
             _deletedItems.Remove (item);
@@ -107,27 +137,27 @@ namespace BusinessObjects
 
         #region DeletedItems class
 
-        [Serializable]
-        private class DeletedCollection : CollectionBase
-        {
-            public T this[int index]
-            {
-                get
-                {
-                    return (T)List[index];
-                }
-            }
+        //[Serializable]
+        //private class DeletedCollection : CollectionBase
+        //{
+        //    public T this[int index]
+        //    {
+        //        get
+        //        {
+        //            return (T)List[index];
+        //        }
+        //    }
 
-            public void Add( T item )
-            {
-                List.Add (item);
-            }
+        //    public void Add( T item )
+        //    {
+        //        List.Add (item);
+        //    }
 
-            public void Remove( T item )
-            {
-                List.Remove (item);
-            }
-        }
+        //    public void Remove( T item )
+        //    {
+        //        List.Remove (item);
+        //    }
+        //}
 
         #endregion
 
@@ -160,7 +190,7 @@ namespace BusinessObjects
         {
             _editLevel++;
 
-            foreach( T item in List )
+            foreach( T item in Items )
             {
                 item.CreateSnapshot ();
             }
@@ -180,7 +210,7 @@ namespace BusinessObjects
                 _editLevel = 0;
             }
 
-            foreach( T item in List )
+            foreach( T item in Items )
             {
                 item.CommitSnapshot ();
                 if( item.EditLevelAdded > _editLevel )
@@ -208,19 +238,19 @@ namespace BusinessObjects
                 _editLevel = 0;
             }
 
-            for( int i = List.Count; i >= 0; i-- )
+            for( int i = Items.Count - 1; i >= 0; i-- )
             {
-                T item = (T)List[i];
+                T item = Items[i];
 
                 item.RevertToPreviousState ();
 
                 if( item.EditLevelAdded > _editLevel )
                 {
-                    base.InnerList.Remove (item);
+                    base.Items.Remove (item);
                 }
             }
 
-            for( int i = _deletedItems.Count; i >= 0; i-- )
+            for( int i = _deletedItems.Count - 1; i >= 0; i-- )
             {
                 T item = _deletedItems[i];
 
@@ -245,113 +275,113 @@ namespace BusinessObjects
 
        
 
-       #endregion
+       //#endregion
 
-        #region IBindingList Members
+       // #region IBindingList Members
 
-        public void AddIndex( PropertyDescriptor property )
-        {
-            throw new Exception ("The method or operation is not implemented.");
-        }
+       // public void AddIndex( PropertyDescriptor property )
+       // {
+       //     throw new Exception ("The method or operation is not implemented.");
+       // }
 
-        public object AddNew()
-        {
-            throw new Exception ("The method or operation is not implemented.");
-        }
+       // public object AddNew()
+       // {
+       //     throw new Exception ("The method or operation is not implemented.");
+       // }
 
-        public bool AllowEdit
-        {
-            get
-            {
-                throw new Exception ("The method or operation is not implemented.");
-            }
-        }
+       // public bool AllowEdit
+       // {
+       //     get
+       //     {
+       //         throw new Exception ("The method or operation is not implemented.");
+       //     }
+       // }
 
-        public bool AllowNew
-        {
-            get
-            {
-                throw new Exception ("The method or operation is not implemented.");
-            }
-        }
+       // public bool AllowNew
+       // {
+       //     get
+       //     {
+       //         throw new Exception ("The method or operation is not implemented.");
+       //     }
+       // }
 
-        public bool AllowRemove
-        {
-            get
-            {
-                throw new Exception ("The method or operation is not implemented.");
-            }
-        }
+       // public bool AllowRemove
+       // {
+       //     get
+       //     {
+       //         throw new Exception ("The method or operation is not implemented.");
+       //     }
+       // }
 
-        public void ApplySort( PropertyDescriptor property, ListSortDirection direction )
-        {
-            throw new Exception ("The method or operation is not implemented.");
-        }
+       // public void ApplySort( PropertyDescriptor property, ListSortDirection direction )
+       // {
+       //     throw new Exception ("The method or operation is not implemented.");
+       // }
 
-        public int Find( PropertyDescriptor property, object key )
-        {
-            throw new Exception ("The method or operation is not implemented.");
-        }
+       // public int Find( PropertyDescriptor property, object key )
+       // {
+       //     throw new Exception ("The method or operation is not implemented.");
+       // }
 
-        public bool IsSorted
-        {
-            get
-            {
-                throw new Exception ("The method or operation is not implemented.");
-            }
-        }
+       // public bool IsSorted
+       // {
+       //     get
+       //     {
+       //         throw new Exception ("The method or operation is not implemented.");
+       //     }
+       // }
 
-        public event ListChangedEventHandler ListChanged;
+       // public event ListChangedEventHandler ListChanged;
 
-        public void RemoveIndex( PropertyDescriptor property )
-        {
-            throw new Exception ("The method or operation is not implemented.");
-        }
+       // public void RemoveIndex( PropertyDescriptor property )
+       // {
+       //     throw new Exception ("The method or operation is not implemented.");
+       // }
 
-        public void RemoveSort()
-        {
-            throw new Exception ("The method or operation is not implemented.");
-        }
+       // public void RemoveSort()
+       // {
+       //     throw new Exception ("The method or operation is not implemented.");
+       // }
 
-        public ListSortDirection SortDirection
-        {
-            get
-            {
-                throw new Exception ("The method or operation is not implemented.");
-            }
-        }
+       // public ListSortDirection SortDirection
+       // {
+       //     get
+       //     {
+       //         throw new Exception ("The method or operation is not implemented.");
+       //     }
+       // }
 
-        public PropertyDescriptor SortProperty
-        {
-            get
-            {
-                throw new Exception ("The method or operation is not implemented.");
-            }
-        }
+       // public PropertyDescriptor SortProperty
+       // {
+       //     get
+       //     {
+       //         throw new Exception ("The method or operation is not implemented.");
+       //     }
+       // }
 
-        public bool SupportsChangeNotification
-        {
-            get
-            {
-                throw new Exception ("The method or operation is not implemented.");
-            }
-        }
+       // public bool SupportsChangeNotification
+       // {
+       //     get
+       //     {
+       //         throw new Exception ("The method or operation is not implemented.");
+       //     }
+       // }
 
-        public bool SupportsSearching
-        {
-            get
-            {
-                throw new Exception ("The method or operation is not implemented.");
-            }
-        }
+       // public bool SupportsSearching
+       // {
+       //     get
+       //     {
+       //         throw new Exception ("The method or operation is not implemented.");
+       //     }
+       // }
 
-        public bool SupportsSorting
-        {
-            get
-            {
-                throw new Exception ("The method or operation is not implemented.");
-            }
-        }
+       // public bool SupportsSorting
+       // {
+       //     get
+       //     {
+       //         throw new Exception ("The method or operation is not implemented.");
+       //     }
+       // }
 
         #endregion
     }
