@@ -101,9 +101,9 @@ namespace BusinessObjects
             }
         }
 
-        public int Add( T item )
+        public void Add( T item )
         {
-            return CollectionObj.Add (item);
+            CollectionObj.Add (item);
         }
 
         public void Insert( int index, T item )
