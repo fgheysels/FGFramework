@@ -61,7 +61,7 @@ namespace BusinessObjects
             // a valid loader to be able to populate the collection.
             if( loader == null )
             {
-                throw new InvalidOperationException ("The ILazyLoader<T> argument cannot be null.");
+                throw new ArgumentException ("The ILazyLoader<T> argument cannot be null.");
             }
             _loader = loader;
         }
