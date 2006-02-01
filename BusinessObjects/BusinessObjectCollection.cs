@@ -24,35 +24,7 @@ namespace BusinessObjects
                 }
                 return false;
             }
-        }
-
-        //public T this[int index]
-        //{
-        //    get
-        //    {
-        //        return (T)List[index];
-        //    }
-        //}
-
-        //public int Add( T item )
-        //{
-        //    return List.Add (item);
-        //}
-
-        //public void Insert( int index, T item )
-        //{
-        //    List.Insert (index, item);
-        //}
-
-        //public void Remove( T item )
-        //{
-        //    List.Remove (item);
-        //}
-
-        //public void RemoveAt( int index )
-        //{
-        //    List.RemoveAt (index);
-        //}
+        }        
 
         public T[] ToArray()
         {            
@@ -72,21 +44,7 @@ namespace BusinessObjects
 
             base.InsertItem (index, item);
         }
-        
-
-        //protected override void OnInsert( int index, object item )
-        //{
-        //    T businessItem = item as T;
-
-        //    if( businessItem != null )
-        //    {
-        //        businessItem.EditLevelAdded = _editLevel;
-        //    }            
-
-        //    base.OnInsert (index, businessItem);
-        //}
-
-        //private DeletedCollection _deletedItems = new DeletedCollection ();
+                
         private Collection<T> _deletedItems = new Collection<T>();
 
         protected override void RemoveItem( int index )
@@ -101,14 +59,7 @@ namespace BusinessObjects
             }
 
             base.RemoveItem(index);
-        }
-
-        //protected override void OnRemove( int index, object item )
-        //{
-        //    T businessItem = item as T;
-        //    DeleteBusinessObject (businessItem);
-        //    base.OnRemove (index, businessItem);
-        //}
+        }        
 
         private void DeleteBusinessObject( T item )
         {
@@ -134,32 +85,6 @@ namespace BusinessObjects
             // Remove the item from the deleted items collection, since we've undeleted it
             _deletedItems.Remove (item);
         }
-
-        #region DeletedItems class
-
-        //[Serializable]
-        //private class DeletedCollection : CollectionBase
-        //{
-        //    public T this[int index]
-        //    {
-        //        get
-        //        {
-        //            return (T)List[index];
-        //        }
-        //    }
-
-        //    public void Add( T item )
-        //    {
-        //        List.Add (item);
-        //    }
-
-        //    public void Remove( T item )
-        //    {
-        //        List.Remove (item);
-        //    }
-        //}
-
-        #endregion
 
         /// <summary>
         /// Gets an array that contains the BusinessObjects that are marked for deletion.
