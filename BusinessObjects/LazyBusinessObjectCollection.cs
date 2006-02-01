@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Collections;
 
 namespace BusinessObjects
 {
@@ -12,7 +13,7 @@ namespace BusinessObjects
     /// <typeparam name="T">The type of the specific BusinessObjects that will be contained
     /// in this collection.</typeparam>
     [Serializable]
-    public class LazyBusinessObjectCollection<T> : IUndoable where T : BusinessObject
+    public class LazyBusinessObjectCollection<T> : IUndoable, ICollection<T> where T : BusinessObject
     {
         /// <summary>
         /// The ILazyLoader that will get the objects that will be contained in
@@ -143,6 +144,8 @@ namespace BusinessObjects
             CollectionObj.ClearDeleted ();
         }
 
+        
+
         #endregion
 
         #region IUndoable Members
@@ -172,6 +175,58 @@ namespace BusinessObjects
             {
                 CollectionObj.RevertToPreviousState ();
             }
+        }
+
+        #endregion
+
+
+        #region ICollection<T> Members
+
+
+        public void Clear()
+        {
+            throw new Exception ("The method or operation is not implemented.");
+        }
+
+        public bool Contains( T item )
+        {
+            throw new Exception ("The method or operation is not implemented.");
+        }
+
+        public void CopyTo( T[] array, int arrayIndex )
+        {
+            throw new Exception ("The method or operation is not implemented.");
+        }
+
+        public bool IsReadOnly
+        {
+            get
+            {
+                throw new Exception ("The method or operation is not implemented.");
+            }
+        }
+
+        bool ICollection<T>.Remove( T item )
+        {
+            throw new Exception ("The method or operation is not implemented.");
+        }
+
+        #endregion
+
+        #region IEnumerable<T> Members
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            throw new Exception ("The method or operation is not implemented.");
+        }
+
+        #endregion
+
+        #region IEnumerable Members
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new Exception ("The method or operation is not implemented.");
         }
 
         #endregion
