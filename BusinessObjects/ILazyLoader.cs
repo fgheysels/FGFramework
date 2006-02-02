@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BusinessObjects
 {
-    public interface ILazyLoader<T>
+    public interface ILazyLoader<T> where T : BusinessObject
     {
         List<T> GetObjects();
     }
