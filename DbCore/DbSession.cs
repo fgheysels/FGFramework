@@ -9,6 +9,9 @@ using DbCore.DbDriver;
 
 namespace DbCore
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class DbSession
     {
 
