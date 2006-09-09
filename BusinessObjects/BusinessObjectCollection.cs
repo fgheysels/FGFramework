@@ -7,9 +7,8 @@ using System.Collections.ObjectModel;
 
 namespace BusinessObjects
 {
-    [Serializable]    
-    //public class BusinessObjectCollection<T> : CollectionBase, IUndoable, IBindingList where T : BusinessObject 
-    public class BusinessObjectCollection<T> : Collection<T>, IUndoable /*, IBindingList*/ where T : BusinessObject    
+    [Serializable]        
+    public class BusinessObjectCollection<T> : Collection<T>, IUndoable  where T : BusinessObject    
     {
         public bool IsDirty
         {
@@ -28,14 +27,16 @@ namespace BusinessObjects
 
         public T[] ToArray()
         {            
-            List<T> list = new List<T> ();
-
-            foreach( T item in Items )
-            {
-                list.Add (item);
-            }
+            List<T> list = new List<T> (Items);
             
             return list.ToArray ();
+        }
+
+        public ReadOnlyCollection<T> AsReadOnly()
+        {
+            List<T> list = new List<T> (Items);
+            
+            return list.AsReadOnly ();
         }
 
         protected override void InsertItem( int index, T item )
@@ -45,7 +46,7 @@ namespace BusinessObjects
             base.InsertItem (index, item);
         }
                 
-        private Collection<T> _deletedItems = new Collection<T>();
+        private List<T> _deletedItems = new List<T>();
 
         protected override void RemoveItem( int index )
         {
@@ -86,21 +87,13 @@ namespace BusinessObjects
             _deletedItems.Remove (item);
         }
 
-        /// <summary>
-        /// Gets an array that contains the BusinessObjects that are marked for deletion.
-        /// </summary>
-        /// <returns></returns>
-        public T[] GetDeletedBusinessObjects()
+        public ReadOnlyCollection<T> DeletedBusinessObjects
         {
-            List<T> items = new List<T> ();
-
-            foreach( T item in _deletedItems )
+            get
             {
-                items.Add (item);
+                return _deletedItems.AsReadOnly ();
             }
-
-            return items.ToArray ();
-        }
+        }        
 
         public void ClearDeleted()
         {
