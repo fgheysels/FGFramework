@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Collections;
+using System.Collections.ObjectModel;
 
 namespace BusinessObjects
 {
@@ -40,6 +41,8 @@ namespace BusinessObjects
                     _collection = new BusinessObjectCollection<T> ();
 
                     // Get the objects and add them to the collection.
+                    List<T> items = _loader.GetObjects ();                    
+
                     foreach( T item in _loader.GetObjects () )
                     {
                         _collection.Add (item);
@@ -119,14 +122,13 @@ namespace BusinessObjects
 
         public T[] ToArray()
         {
-            List<T> list = new List<T> ();
 
-            for( int i = 0; i < CollectionObj.Count; i++ )
-            {
-                list.Add (CollectionObj[i]);
-            }
+            return CollectionObj.ToArray ();            
+        }
 
-            return list.ToArray ();
+        public ReadOnlyCollection<T> AsReadOnly()
+        {
+            return CollectionObj.AsReadOnly ();
         }
 
         public void RemoveAt( int index )
@@ -134,10 +136,13 @@ namespace BusinessObjects
             CollectionObj.RemoveAt (index);
         }
 
-        public T[] GetDeletedBusinessObjects()
+        public ReadOnlyCollection<T> DeletedBusinessObjects
         {
-            return CollectionObj.GetDeletedBusinessObjects ();
-        }
+            get
+            {
+                return CollectionObj.DeletedBusinessObjects;
+            }
+        }       
 
         public void ClearDeleted()
         {
