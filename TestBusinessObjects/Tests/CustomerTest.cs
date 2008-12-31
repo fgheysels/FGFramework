@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace TestBusinessObjects.Tests
 {
     [TestFixture]
-    class CustomerTest
+    public class CustomerTest
     {
         [Test]
         public void TestLazyOrders()

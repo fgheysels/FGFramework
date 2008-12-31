@@ -46,9 +46,7 @@ namespace TestBusinessObjects.Repositories
         public Customer GetCustomer( int id )
         {
             Customer c = new Customer (id);
-            c.Name = _customers[id];
-
-            c.Orders = new LazyBusinessObjectCollection<Order> (new CustomerOrderLoader(c));
+            c.Name = _customers[id];          
 
             return c;
         }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using BusinessObjects;
+using TestBusinessObjects.Repositories;
 
 namespace TestBusinessObjects
 {
@@ -48,7 +49,8 @@ namespace TestBusinessObjects
 
         internal Customer( int id  )
         {
-            _customerId = id;           
+            _customerId = id;
+            _orders = new LazyBusinessObjectCollection<Order> (new CustomerOrderLoader (this));
         }
 
         public void AddOrder( Order o )
