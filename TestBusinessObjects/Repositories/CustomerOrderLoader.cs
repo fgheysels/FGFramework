@@ -7,13 +7,11 @@ using BusinessObjects;
 namespace TestBusinessObjects.Repositories
 {
     class CustomerOrderLoader : ILazyLoader<Order>
-    {
-        //private int _customerId;
+    {        
         private Customer _c;
 
         internal CustomerOrderLoader( Customer c )
-        {
-        //    _customerId = customerId;
+        {     
             _c = c;
         }
 
@@ -33,8 +31,6 @@ namespace TestBusinessObjects.Repositories
 
                         o.Name = ( (CustomerRepository.OrderPersistence)os.Current ).OrderName;
                         o.OwningCustomer = _c;
-                       // o.Id = CustomerRepository._orders.Keys[i];
-
 
                         orderList.Add (o);
                     }
